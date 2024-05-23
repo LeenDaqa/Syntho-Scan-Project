@@ -1,0 +1,127 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Transformation Results - SynthoScan CT</title>
+    <style>
+        body {
+            font-family: 'Arial', sans-serif;
+            display: flex;
+            flex-direction: column;
+            min-height: 100vh;
+            margin: 0;
+            background: url('img/BackGround.jpg') no-repeat center center fixed;
+            background-size: cover;
+        }
+        .header, .footer {
+            background-color: rgba(255, 255, 255, 0.8);
+            padding: 15px 20px;
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1);
+        }
+        .header img {
+            height: 75px;
+            margin-right: auto;
+        }
+        .header a {
+            color: #fff;
+            text-decoration: none;
+            padding: 10px 20px;
+            border-radius: 5px;
+            background-color: #007bff;
+            border: none;
+            cursor: pointer;
+        }
+        .header a:hover {
+            background-color: #0056b3;
+            text-decoration: none;
+        }
+        .content {
+            flex: 1;
+            display: flex;
+            flex-direction: column;
+            justify-content: center;
+            align-items: center;
+            padding: 20px;
+        }
+        .result-container {
+            background-color: rgba(255, 255, 255, 0.8);
+            border-radius: 12px;
+            box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
+            padding: 40px;
+            max-width: 500px;
+            width: 100%;
+            text-align: center;
+        }
+        .result-container h1 {
+            margin-bottom: 24px;
+            color: #333;
+        }
+        .result-container img {
+            max-width: 100%;
+            width: 200px;
+            border: 2px solid #000;
+            border-radius: 5px;
+            margin-bottom: 20px;
+        }
+        .footer {
+            border-top: 1px solid #ddd;
+            text-align: center;
+            padding: 20px;
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+        }
+        .footer p {
+            margin: 5px 0;
+        }
+        .footer a {
+            color: #007bff;
+            text-decoration: none;
+        }
+        .footer a:hover {
+            text-decoration: underline;
+        }
+    </style>
+</head>
+<body>
+    <div class="header">
+        <img src="img/logo.jpg" alt="SynthoScan CT">
+        <a href="logout.html">Log out</a>
+    </div>
+    <div class="content">
+        <div class="result-container">
+            <h1>Transformation Results</h1>
+            <div>
+                <h2>Uploaded Image</h2>
+                <img id="uploadedImage" src="img/1BC041_mri_25.jpg" alt="Uploaded Image">
+            </div>
+            <div>
+                <h2>Transformed Image</h2>
+                <img id="transformedImage" src="img/1BC041_ct_25.jpg" alt="Transformed Image">
+            </div>
+        </div>
+    </div>
+    <div class="footer">
+        <p>&copy; 2024 SynthoScan CT. All rights reserved.</p>
+        <p><a href="about.html">About Us</a></p>
+    </div>
+
+    <script>
+        document.addEventListener('DOMContentLoaded', () => {
+            // Fetch the result from the server
+            fetch('/get-result')
+                .then(response => response.json())
+                .then(data => {
+                    // Display the uploaded and transformed images
+                    document.getElementById('uploadedImage').src = 'data:image/png;base64,' + data.uploadedImage;
+                    document.getElementById('transformedImage').src = 'data:image/png;base64,' + data.transformedImage;
+                })
+                .catch(error => console.error('Error fetching the images:', error));
+        });
+    </script>
+</body>
+</html>

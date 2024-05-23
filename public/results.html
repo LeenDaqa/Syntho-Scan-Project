@@ -1,0 +1,128 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Our Results - SynthoScan CT</title>
+    <style>
+        html, body {
+            height: 100%;
+            margin: 0;
+            font-family: Arial, sans-serif;
+            background-color: #f0f0f0;
+            background: url('img/BackGround.jpg') no-repeat center center fixed;
+            background-size: cover;
+        }
+        body {
+            display: flex;
+            flex-direction: column;
+        }
+        .header {
+            background-color: #fff;
+            border-bottom: 1px solid #ddd;
+            padding: 10px 20px;
+            display: flex;
+            justify-content: left;
+            align-items: left;
+            box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1);
+        }
+        .header img {
+            height: 75px;
+        }
+        .results-container {
+            background-color: #fff;
+            border-radius: 8px;
+            box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
+            padding: 20px;
+            max-width: 800px;
+            margin: 20px auto;
+            text-align: center;
+            flex: 1;
+            display: flex;
+            flex-direction: column;
+            justify-content: center;
+        }
+        .results-container h1 {
+            margin-bottom: 24px;
+        }
+        .results-row {
+            display: flex;
+            justify-content: space-around;
+            align-items: center;
+            flex-wrap: wrap;
+        }
+        .results-item {
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            margin: 8px;
+        }
+        .results-item img {
+            max-width: 100px;
+            border: 2px solid #000;
+            border-radius: 5px;
+        }
+        .results-item p {
+            margin-top: 8px;
+        }
+        .upload-button {
+            margin-top: 20px;
+            padding: 12px 20px;
+            border-radius: 4px;
+            border: none;
+            background-color: #007bff;
+            color: #fff;
+            cursor: pointer;
+            font-size: 16px;
+        }
+        .upload-button:hover {
+            background-color: #0056b3;
+        }
+        .footer {
+            background-color: #fff;
+            border-top: 1px solid #ddd;
+            padding: 10px 20px;
+            text-align: center;
+            box-shadow: 0 -2px 4px rgba(0, 0, 0, 0.1);
+        }
+        .footer a {
+            color: #007bff;
+            text-decoration: none;
+        }
+        .footer a:hover {
+            text-decoration: underline;
+        }
+    </style>
+</head>
+<body>
+    <div class="header">
+        <img src="img/logo.jpg" alt="SynthoScan CT">
+    </div>
+    <div class="results-container">
+        <h1>Our Results</h1>
+        <div class="results-row">
+            <div class="results-item">
+                <img src="img/real_mri.jpg" alt="Real MRI">
+                <p>Real MRI</p>
+            </div>
+            <div class="results-item">
+                <img src="img/fake_ct.jpg" alt="Synthetic CT">
+                <p>Synthetic CT</p>
+            </div>
+            <div class="results-item">
+                <img src="img/real_ct.jpg" alt="Real CT">
+                <p>Real CT</p>
+            </div>
+            <div class="results-item">
+                <img src="img/fake_mri.jpg" alt="Synthetic MRI">
+                <p>Synthetic MRI</p>
+            </div>
+        </div>
+        <button class="upload-button" onclick="window.location.href='upload.html'">Upload Image</button>
+    </div>
+    <div class="footer">
+        <p>&copy; 2024 SynthoScan CT. All rights reserved.</p>
+        <p><a href="about.html">About Us</a></p>
+    </div>
+</body>
+</html>

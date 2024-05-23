@@ -1,0 +1,169 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Request Account - SynthoScan CT</title>
+    <style>
+        body {
+            font-family: 'Arial', sans-serif;
+            display: flex;
+            flex-direction: column;
+            min-height: 100vh;
+            margin: 0;
+            background: url('img/BackGround.jpg') no-repeat center center fixed;
+            background-size: cover;
+        }
+        .header, .footer {
+            background-color: rgba(255, 255, 255, 0.8);
+            padding: 15px 20px;
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1);
+        }
+        .header img {
+            height: 75px;
+            margin-right: auto;
+        }
+        .header a {
+            color: #fff;
+            text-decoration: none;
+            padding: 10px 20px;
+            border-radius: 5px;
+            background-color: #007bff;
+            border: none;
+            cursor: pointer;
+        }
+        .header a:hover {
+            background-color: #0056b3;
+            text-decoration: none;
+        }
+        .content {
+            flex: 1;
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            padding: 20px;
+        }
+        .request-container {
+            background-color: rgba(255, 255, 255, 0.8);
+            border-radius: 12px;
+            box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
+            padding: 40px;
+            max-width: 600px;
+            width: 100%;
+            text-align: center;
+        }
+        .request-container h1 {
+            margin-bottom: 24px;
+            color: #333;
+        }
+        .request-container p {
+            margin-bottom: 24px;
+            font-size: 16px;
+            color: #666;
+            text-align: left;
+        }
+        .request-container input, .request-container textarea {
+            width: calc(100% - 24px);
+            padding: 12px;
+            margin: 8px 0;
+            border-radius: 4px;
+            border: 1px solid #ccc;
+        }
+        .request-container button {
+            padding: 12px;
+            border-radius: 4px;
+            border: none;
+            background-color: #007bff;
+            color: #fff;
+            cursor: pointer;
+            font-size: 16px;
+            margin-top: 12px;
+            width: calc(100% - 24px);
+        }
+        .request-container button:disabled {
+            background-color: #ccc;
+            cursor: not-allowed;
+        }
+        .request-container .terms {
+            text-align: left;
+            margin-bottom: 12px;
+        }
+        .footer {
+            border-top: 1px solid #ddd;
+            text-align: center;
+            padding: 20px;
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+        }
+        .footer p {
+            margin: 5px 0;
+        }
+        .footer a {
+            color: #007bff;
+            text-decoration: none;
+        }
+        .footer a:hover {
+            text-decoration: underline;
+        }
+    </style>
+</head>
+<body>
+    <div class="header">
+        <img src="img/logo.jpg" alt="SynthoScan CT">
+        <a href="login.html">Login</a>
+    </div>
+    <div class="content">
+        <div class="request-container">
+            <h1>Request Account</h1>
+            <p>We appreciate your interest in our project, but it is of high importance to maintain our patient's privacy. Please accept the terms and conditions and fill out the following to be taken into consideration:</p>
+            <div class="terms">
+                <input type="checkbox" id="agree" onclick="toggleSubmit()">
+                <label for="agree">I have read and agree to the <a href="terms.html">terms and conditions</a></label>
+            </div>
+            <form id="requestForm" enctype="multipart/form-data">
+                <input type="text" id="name" name="name" placeholder="Name" required>
+                <input type="text" id="jobTitle" name="jobTitle" placeholder="Current Job Title" required>
+                <input type="file" id="resume" name="resume" accept=".pdf" required>
+                <button type="submit" id="submitBtn" disabled>Submit</button>
+            </form>
+        </div>
+    </div>
+    <div class="footer">
+        <p>&copy; 2024 SynthoScan CT. All rights reserved.</p>
+        <p><a href="about.html">About Us</a></p>
+    </div>
+
+    <script>
+        function toggleSubmit() {
+            const submitBtn = document.getElementById('submitBtn');
+            submitBtn.disabled = !document.getElementById('agree').checked;
+        }
+
+        document.getElementById('requestForm').addEventListener('submit', async function(event) {
+            event.preventDefault();
+
+            const formData = new FormData();
+            formData.append('name', document.getElementById('name').value);
+            formData.append('jobTitle', document.getElementById('jobTitle').value);
+            formData.append('resume', document.getElementById('resume').files[0]);
+
+            const response = await fetch('/request-account', {
+                method: 'POST',
+                body: formData
+            });
+
+            if (response.ok) {
+                alert('Request submitted successfully');
+                document.getElementById('requestForm').reset();
+                document.getElementById('submitBtn').disabled = true;
+            } else {
+                alert('Failed to submit request');
+            }
+        });
+    </script>
+</body>
+</html>

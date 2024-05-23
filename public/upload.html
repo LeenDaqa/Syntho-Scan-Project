@@ -1,0 +1,165 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Upload - SynthoScan CT</title>
+    <style>
+        body {
+            font-family: 'Arial', sans-serif;
+            display: flex;
+            flex-direction: column;
+            min-height: 100vh;
+            margin: 0;
+            background: url('img/BackGround.jpg') no-repeat center center fixed;
+            background-size: cover;
+        }
+        .header, .footer {
+            background-color: rgba(255, 255, 255, 0.8);
+            padding: 15px 20px;
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1);
+        }
+        .header img {
+            height: 75px;
+            margin-right: auto;
+        }
+        .header a {
+            color: #fff;
+            text-decoration: none;
+            padding: 10px 20px;
+            border-radius: 5px;
+            background-color: #007bff;
+            border: none;
+            cursor: pointer;
+        }
+        .header a:hover {
+            background-color: #0056b3;
+            text-decoration: none;
+        }
+        .content {
+            flex: 1;
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            padding: 20px;
+        }
+        .form-container {
+            background-color: rgba(255, 255, 255, 0.8);
+            border-radius: 12px;
+            box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
+            padding: 40px;
+            max-width: 600px;
+            width: 100%;
+            text-align: center;
+        }
+        .form-container h1 {
+            margin-bottom: 24px;
+            color: #333;
+        }
+        .form-container p {
+            margin-bottom: 24px;
+            font-size: 16px;
+            color: #666;
+        }
+        .form-container input[type="radio"] {
+            margin-right: 10px;
+        }
+        .form-container label {
+            font-size: 16px;
+            color: #333;
+        }
+        .custom-upload {
+            display: inline-block;
+            margin-top: 20px;
+            padding: 12px 24px;
+            border-radius: 5px;
+            background-color: #007bff;
+            color: #fff;
+            cursor: pointer;
+            font-size: 16px;
+            border: none;
+        }
+        .custom-upload:hover {
+            background-color: #0056b3;
+        }
+        .footer {
+            border-top: 1px solid #ddd;
+            text-align: center;
+            padding: 20px;
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+        }
+        .footer p {
+            margin: 5px 0;
+        }
+        .footer a {
+            color: #007bff;
+            text-decoration: none;
+        }
+        .footer a:hover {
+            text-decoration: underline;
+        }
+    </style>
+</head>
+<body>
+    <div class="header">
+        <img src="img/logo.jpg" alt="SynthoScan CT">
+        <a href="logout.html">Log out</a>
+    </div>
+    <div class="content">
+        <div class="form-container">
+            <h1>Upload and Transform</h1>
+            <p>Make sure to upload the correct image and verify its modality for accurate processing.</p>
+            <form id="uploadForm" enctype="multipart/form-data">
+                <p>Choose your transformation type:</p>
+                <label><input type="radio" name="transformation" value="A2B" required> MRI to CT</label><br>
+                <label><input type="radio" name="transformation" value="B2A" required> CT to MRI</label><br><br>
+                <input type="file" id="image" name="image" accept="image/*" style="display: none;" required>
+                <button type="button" class="custom-upload" onclick="document.getElementById('image').click();">Upload Image</button>
+                <button type="button" class="custom-upload" onclick="handleSubmit()">Submit</button>
+            </form>
+        </div>
+    </div>
+    <div class="footer">
+        <p>&copy; 2024 SynthoScan CT. All rights reserved.</p>
+        <p><a href="about.html">About Us</a></p>
+    </div>
+
+    <script>
+        async function handleSubmit() {
+            const formData = new FormData(document.getElementById('uploadForm'));
+
+            const fileInput = document.getElementById('image');
+            if (!fileInput.files.length) {
+                alert('Please select an image to upload.');
+                return;
+            }
+
+            const transformation = document.querySelector('input[name="transformation"]:checked').value;
+            const url = transformation === 'A2B' ? '/transform' : '/transform2';
+
+            try {
+                const response = await fetch(url, {
+                    method: 'POST',
+                    body: formData
+                });
+
+                if (response.ok) {
+                    const result = await response.json();
+                    console.log('Transformation successful:', result);
+                    // Redirect to results page after successful transformation
+                    window.location.href = '/mriCt.html';
+                } else {
+                    console.error('Transformation failed.');
+                }
+            } catch (error) {
+                console.error('Error:', error);
+            }
+        }
+    </script>
+</body>
+</html>

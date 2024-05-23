@@ -1,0 +1,127 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Image Transformer</title>
+    <style>
+        body {
+            font-family: Arial, sans-serif;
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            flex-direction: column;
+            padding: 20px;
+        }
+        h1, h2 {
+            text-align: center;
+        }
+        form {
+            border: 2px solid #ccc;
+            padding: 20px;
+            margin: 10px;
+            border-radius: 10px;
+            box-shadow: 0 0 10px rgba(0, 0, 0, 0.1);
+            max-width: 600px;
+            width: 100%;
+        }
+        img {
+            display: block;
+            margin: 10px auto;
+            max-width: 100%;
+            border: 2px solid #000;
+            border-radius: 5px;
+        }
+        button {
+            display: block;
+            width: 100%;
+            padding: 10px;
+            background-color: #4CAF50;
+            color: white;
+            border: none;
+            border-radius: 5px;
+            cursor: pointer;
+        }
+        button:hover {
+            background-color: #45a049;
+        }
+        #resultA2B, #resultB2A {
+            text-align: center;
+        }
+    </style>
+</head>
+<body>
+    <h1>Image Transformer</h1>
+    <form id="transformA2B" enctype="multipart/form-data">
+        <h2>Transform A to B</h2>
+        <input type="file" id="imageA2B" name="image" accept="image/*" required>
+        <button type="submit">Transform</button>
+        <div id="resultA2B">
+            <h3>Input Image</h3>
+            <img id="inputImageA2B" src="" alt="Input Image A2B">
+            <h3>Transformed Image</h3>
+            <img id="transformedImageA2B" src="" alt="Transformed Image A2B">
+        </div>
+    </form>
+    <br>
+    <form id="transformB2A" enctype="multipart/form-data">
+        <h2>Transform B to A</h2>
+        <input type="file" id="imageB2A" name="image" accept="image/*" required>
+        <button type="submit">Transform</button>
+        <div id="resultB2A">
+            <h3>Input Image</h3>
+            <img id="inputImageB2A" src="" alt="Input Image B2A">
+            <h3>Transformed Image</h3>
+            <img id="transformedImageB2A" src="" alt="Transformed Image B2A">
+        </div>
+    </form>
+
+    <script>
+        document.getElementById('transformA2B').addEventListener('submit', async function(event) {
+            event.preventDefault();
+            const formData = new FormData();
+            formData.append('image', document.getElementById('imageA2B').files[0]);
+
+            try {
+                const response = await fetch('/transform/', {
+                    method: 'POST',
+                    body: formData
+                });
+
+                if (response.ok) {
+                    const result = await response.json();
+                    document.getElementById('inputImageA2B').src = 'data:image/png;base64,' + result.input_image;
+                    document.getElementById('transformedImageA2B').src = 'data:image/png;base64,' + result.transformed_image;
+                } else {
+                    console.error('Transformation failed.');
+                }
+            } catch (error) {
+                console.error('Error:', error);
+            }
+        });
+
+        document.getElementById('transformB2A').addEventListener('submit', async function(event) {
+            event.preventDefault();
+            const formData = new FormData();
+            formData.append('image', document.getElementById('imageB2A').files[0]);
+
+            try {
+                const response = await fetch('/transform2/', {
+                    method: 'POST',
+                    body: formData
+                });
+
+                if (response.ok) {
+                    const result = await response.json();
+                    document.getElementById('inputImageB2A').src = 'data:image/png;base64,' + result.input_image;
+                    document.getElementById('transformedImageB2A').src = 'data:image/png;base64,' + result.transformed_image;
+                } else {
+                    console.error('Transformation failed.');
+                }
+            } catch (error) {
+                console.error('Error:', error);
+            }
+        });
+    </script>
+</body>
+</html>
